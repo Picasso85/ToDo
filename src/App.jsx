@@ -1,35 +1,56 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [ newItem, setNewItem] = useState("")
+  
+  const [ todos, setTodos] = useState([
+    {text: 'something'},
+    {text: 'something2'},
+    {text: 'something3'},
+  ])
+    
+  
+  
+  const handleInputChange = (event) => {
+    setNewItem(event.target.value)
+  }
 
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+  const habdleSubmit = (event) => {
+    event.preventDefault(); // 
+    setTodos([
+      ...todos,
+      {text: newItem}
+    ])
+  }
+
+  return ( 
+    <div className='todo-app'>
+      <h1>ToDo</h1>
+      <form onSubmit={habdleSubmit}>
+        <input type='text' placeholder='Add something' onChange={handleInputChange} value={newItem}></input>
+        <button type='submit'>Add <span>+</span></button>
+      </form>
+      <section>
+        <ul>
+          <li>
+            <span>Name No1 </span>
+            <button>DEL</button>
+          </li>
+          <li>
+            <span>Name No2 </span>
+            <button>DEL</button>
+          </li>
+          <li>
+            <span>Name No3 </span>
+            <button>DEL</button>
+          </li>
+        </ul>
+      </section>
+    </div>
+     
+  ) 
 }
 
 export default App
