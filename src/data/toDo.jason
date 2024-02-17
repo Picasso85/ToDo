@@ -1,0 +1,20 @@
+[
+  {
+    "id": "1",
+    "event": "click",
+    "text": "Some text",
+    "time": "2024-02-17T12:30:45.123Z"
+  },
+  {
+    "id": "2",
+    "event": "hover",
+    "text": "Another text",
+    "time": "2024-02-17T13:15:20.456Z"
+  },
+  {
+    "id": "3",
+    "event": "submit",
+    "text": "Yet another text",
+    "time": "2024-02-17T14:05:10.789Z"
+  }
+]

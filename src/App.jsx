@@ -1,5 +1,7 @@
-import { useState } from 'react';
-import './App.css';
+import { useState, useMemo, useCallback, useEffect } from 'react';
+import './assets/App.css';
+
+const pageSize = 3;
 
 function App() {
   const [newItem, setNewItem] = useState('');
@@ -9,42 +11,74 @@ function App() {
     { text: 'something b' },
     { text: 'something c' }
   ]);
-  
+  const [showModal, setShowModal] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+
   const handleInputChange = (event) => {
     setNewItem(event.target.value);
   };
 
+  // const handleSubmit = useCallback((event) => {
+  //   event.preventDefault();
+  //   if (newItem.trim() !== '') {
+  //     setTodos(prevTodos => [...prevTodos, { text: newItem.trim() }]);
+  //     setNewItem('');
+  //   }
+  // }, [newItem]);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     if (newItem.trim() !== '') {
-      setTodos([
-        ...todos,
-        { text: newItem.trim() }
-      ]);
-      setNewItem('');
+      // 
+      if (todos.length < 21) {
+        setTodos([
+          ...todos,
+          { text: newItem.trim() }
+        ]);
+        setNewItem('');
+      } else {
+        // 
+        setShowModal(true);
+      }
     }
   };
 
-  const handleDelete = (index) => {
-    const updatedTodos = todos.filter((_, i) => i !== index);
-    setTodos(updatedTodos);
-  };
+  const handleDelete = useCallback((index) => {
+    setTodos(prevTodos => prevTodos.filter((_, i) => i !== index));
+  }, []);
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
 
-  const clearSearch = () => {
+  const clearSearch = useCallback(() => {
     setSearchTerm('');
-  };
+  }, []);
 
-  const filteredTodos = todos.filter(todo =>
-    todo.text.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredTodos = useMemo(() => {
+    return todos.filter(todo =>
+      todo.text.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }, [todos, searchTerm]);
+
+  const totalPages = Math.ceil(filteredTodos.length / pageSize);
+
+  const paginatedTodos = useMemo(() => {
+    return filteredTodos.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+  }, [currentPage, filteredTodos]);
+
+  const handlePageChange = useCallback((page) => {
+    setCurrentPage(page);
+  }, []);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm]);
 
   return (
     <div className='todo-app'>
-      <h1 className="title">ToDo</h1>
+      <h1 className="title">ToDo <span className='title-span'>{todos.length}</span></h1>
+      
       <div className="search-container">
         <div className="search-input-container">
           <input
@@ -66,19 +100,38 @@ function App() {
             onChange={handleInputChange}
             value={newItem}
           />
-          <button type='submit' className="add-button">Add</button>
+          <button type='submit' className="add-button">Add+</button>
         </div>
       </form>
       <section>
         <ul className="todo-list">
-          {filteredTodos.map((todo, index) => (
+          {paginatedTodos.map((todo, index) => (
             <li key={index} className="todo-item">
               <span>{todo.text}</span>
               <button onClick={() => handleDelete(index)} className="delete-button">Delete</button>
             </li>
           ))}
         </ul>
+        {totalPages > 1 && (
+          <div className="pagination">
+            {Array.from({ length: totalPages }, (_, i) => (
+              <button key={i + 1} onClick={() => handlePageChange(i + 1)} className={currentPage === i + 1 ? "active" : ""}>
+                {i + 1}
+              </button>
+            ))}
+          </div>
+        )}
       </section>
+      {/* Modal */}
+      {showModal && (
+        <div className="modal">
+          <div className="modal-content">
+            <h2>You lazy...</h2>
+            <p>Tooo much ToDo <span>21</span>. try finish something</p>
+            <button onClick={() => setShowModal(false)}>OK</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
