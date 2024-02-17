@@ -1,56 +1,86 @@
-import { useState } from 'react'
-
-import './App.css'
+import { useState } from 'react';
+import './App.css';
 
 function App() {
-  const [ newItem, setNewItem] = useState("")
-  
-  const [ todos, setTodos] = useState([
-    {text: 'something'},
-    {text: 'something2'},
-    {text: 'something3'},
-  ])
-    
-  
+  const [newItem, setNewItem] = useState('');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [todos, setTodos] = useState([
+    { text: 'something a' },
+    { text: 'something b' },
+    { text: 'something c' }
+  ]);
   
   const handleInputChange = (event) => {
-    setNewItem(event.target.value)
-  }
+    setNewItem(event.target.value);
+  };
 
-  const habdleSubmit = (event) => {
-    event.preventDefault(); // 
-    setTodos([
-      ...todos,
-      {text: newItem}
-    ])
-  }
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (newItem.trim() !== '') {
+      setTodos([
+        ...todos,
+        { text: newItem.trim() }
+      ]);
+      setNewItem('');
+    }
+  };
 
-  return ( 
+  const handleDelete = (index) => {
+    const updatedTodos = todos.filter((_, i) => i !== index);
+    setTodos(updatedTodos);
+  };
+
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const clearSearch = () => {
+    setSearchTerm('');
+  };
+
+  const filteredTodos = todos.filter(todo =>
+    todo.text.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  return (
     <div className='todo-app'>
-      <h1>ToDo</h1>
-      <form onSubmit={habdleSubmit}>
-        <input type='text' placeholder='Add something' onChange={handleInputChange} value={newItem}></input>
-        <button type='submit'>Add <span>+</span></button>
+      <h1 className="title">ToDo</h1>
+      <div className="search-container">
+        <div className="search-input-container">
+          <input
+            type='text'
+            placeholder='Search'
+            className="search-input"
+            onChange={handleSearchChange}
+            value={searchTerm}
+          />
+          <button className="clear-button" onClick={clearSearch}>Clear</button>
+        </div>
+      </div>
+      <form onSubmit={handleSubmit} className="todo-form">
+        <div className="add-container">
+          <input
+            type='text'
+            placeholder='Add something'
+            className="add-input"
+            onChange={handleInputChange}
+            value={newItem}
+          />
+          <button type='submit' className="add-button">Add</button>
+        </div>
       </form>
       <section>
-        <ul>
-          <li>
-            <span>Name No1 </span>
-            <button>DEL</button>
-          </li>
-          <li>
-            <span>Name No2 </span>
-            <button>DEL</button>
-          </li>
-          <li>
-            <span>Name No3 </span>
-            <button>DEL</button>
-          </li>
+        <ul className="todo-list">
+          {filteredTodos.map((todo, index) => (
+            <li key={index} className="todo-item">
+              <span>{todo.text}</span>
+              <button onClick={() => handleDelete(index)} className="delete-button">Delete</button>
+            </li>
+          ))}
         </ul>
       </section>
     </div>
-     
-  ) 
+  );
 }
 
-export default App
+export default App;
