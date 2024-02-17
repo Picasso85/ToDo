@@ -7,9 +7,9 @@ function App() {
   const [newItem, setNewItem] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [todos, setTodos] = useState([
-    { text: 'something a' },
-    { text: 'something b' },
-    { text: 'something c' }
+    { text: 'buy milk' },
+    { text: 'code some stuff' },
+    { text: 'make a lunch' }
   ]);
   const [showModal, setShowModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -77,13 +77,13 @@ function App() {
 
   return (
     <div className='todo-app'>
-      <h1 className="title">ToDo <span className='title-span'>{todos.length}</span></h1>
+      <h1 className="title">ToDo <span>{todos.length}</span></h1>
       
       <div className="search-container">
         <div className="search-input-container">
           <input
             type='text'
-            placeholder='Search'
+            placeholder='Search...'
             className="search-input"
             onChange={handleSearchChange}
             value={searchTerm}
@@ -95,7 +95,7 @@ function App() {
         <div className="add-container">
           <input
             type='text'
-            placeholder='Add something'
+            placeholder='Add something...'
             className="add-input"
             onChange={handleInputChange}
             value={newItem}
