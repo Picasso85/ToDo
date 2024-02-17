@@ -46,12 +46,14 @@
 .title {
   text-align: center;
   margin-bottom: 20px;
+  border-radius: 5rem 5rem 5rem 0;
   box-shadow: inset 2px 2px 20px rgba(26, 26, 26, 0.799)
 }
 
 .title span {
   color: #ec952b;
-  box-shadow: inset 2px 2px 20px rgba(54, 252, 94, 0.799)  
+  box-shadow: inset 2px 2px 20px rgba(210, 210, 210, 0.799),
+              4px 10px 20px rgba(43, 43, 43, 0.799);
 }
 
 

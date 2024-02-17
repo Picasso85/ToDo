@@ -11,25 +11,18 @@ function App() {
     { text: 'code some stuff' },
     { text: 'make a lunch' }
   ]);
-  const [showModal, setShowModal] = useState(false);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteIndex, setDeleteIndex] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
 
   const handleInputChange = (event) => {
     setNewItem(event.target.value);
   };
 
-  // const handleSubmit = useCallback((event) => {
-  //   event.preventDefault();
-  //   if (newItem.trim() !== '') {
-  //     setTodos(prevTodos => [...prevTodos, { text: newItem.trim() }]);
-  //     setNewItem('');
-  //   }
-  // }, [newItem]);
-
   const handleSubmit = (event) => {
     event.preventDefault();
     if (newItem.trim() !== '') {
-      // 
       if (todos.length < 21) {
         setTodos([
           ...todos,
@@ -37,15 +30,20 @@ function App() {
         ]);
         setNewItem('');
       } else {
-        // 
-        setShowModal(true);
+        setShowAddModal(true);
       }
     }
   };
 
   const handleDelete = useCallback((index) => {
-    setTodos(prevTodos => prevTodos.filter((_, i) => i !== index));
+    setDeleteIndex(index);
+    setShowDeleteModal(true);
   }, []);
+
+  const confirmDelete = useCallback(() => {
+    setTodos(prevTodos => prevTodos.filter((_, i) => i !== deleteIndex));
+    setShowDeleteModal(false);
+  }, [deleteIndex]);
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
@@ -122,13 +120,26 @@ function App() {
           </div>
         )}
       </section>
-      {/* Modal */}
-      {showModal && (
+      {/* Add Modal */}
+      {showAddModal && (
         <div className="modal">
           <div className="modal-content">
-            <h2>You lazy...</h2>
-            <p>Tooo much ToDo <span>21</span>! try finish something</p>
-            <button onClick={() => setShowModal(false)}>OK</button>
+            <h2>Too many todos!</h2>
+            <p>You have reached the maximum number of todos.</p>
+            <button onClick={() => setShowAddModal(false)}>OK</button>
+          </div>
+        </div>
+      )}
+      {/* Delete Modal */}
+      {showDeleteModal && (
+        <div className="modal">
+          <div className="modal-content">
+            <h2>Confirm...</h2>
+            <p>Are you sure you want to delete this todo?</p>
+            <div>
+              <button onClick={confirmDelete}>Yes</button>
+              <button onClick={() => setShowDeleteModal(false)}>No</button>
+            </div>
           </div>
         </div>
       )}
