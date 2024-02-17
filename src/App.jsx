@@ -77,7 +77,7 @@ function App() {
 
   return (
     <div className='todo-app'>
-      <h1 className="title">ToDo <span>{todos.length}</span></h1>
+      <h1 className="title">ToDo <span>{todos.length}!</span></h1>
       
       <div className="search-container">
         <div className="search-input-container">
@@ -127,7 +127,7 @@ function App() {
         <div className="modal">
           <div className="modal-content">
             <h2>You lazy...</h2>
-            <p>Tooo much ToDo <span>21</span>. try finish something</p>
+            <p>Tooo much ToDo <span>21</span>! try finish something</p>
             <button onClick={() => setShowModal(false)}>OK</button>
           </div>
         </div>
