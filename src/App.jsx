@@ -124,8 +124,8 @@ function App() {
       {showAddModal && (
         <div className="modal">
           <div className="modal-content">
-            <h2>Too many todos!</h2>
-            <p>You have reached the maximum number of todos.</p>
+            <h2>Too many <span>toDo</span>s!</h2>
+            <p>You have reached the maximum number of <span>toDo</span>s!.</p>
             <button onClick={() => setShowAddModal(false)}>OK</button>
           </div>
         </div>
@@ -135,7 +135,7 @@ function App() {
         <div className="modal">
           <div className="modal-content">
             <h2>Confirm...</h2>
-            <p>Are you sure you want to delete this todo?</p>
+            <p>Are you sure you want to delete this <span>toDo</span>?</p>
             <div>
               <button onClick={confirmDelete}>Yes</button>
               <button onClick={() => setShowDeleteModal(false)}>No</button>
