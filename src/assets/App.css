@@ -54,7 +54,7 @@
   color: #fb8347;
   background-color: #434343;
   border-radius: 2rem 0 2rem 0;
-  box-shadow: inset 2px 2px 20px rgba(210, 210, 210, 0.299),
+  box-shadow: inset 2px 2px 20px rgba(210, 210, 210, 0.79),
               inset 4px 10px 20px rgba(43, 43, 43, 0.799),
                     4px 10px 20px rgba(43, 43, 43, 0.999);
 }
